@@ -1,48 +1,9 @@
 <script lang="ts" setup>
-import { reactive, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-const props = defineProps<{
-  limit: number;
+import type { Filters } from "../../types";
+
+defineProps<{
+  filters: Filters;
 }>();
-const emit = defineEmits(["refetch"]);
-const router = useRouter();
-const route = useRoute();
-// const page = computed(() => Number(route.query.page) || 1);
-const filters = reactive({
-  startDate: (route.query.startDate as string) || "2024-01-01",
-  endDate: (route.query.endDate as string) || "2025-01-01",
-  limit: Number(route.query.limit) || props.limit,
-});
-
-watch(
-  filters,
-  (newFilters) => {
-    // Создаем новый объект с параметрами запроса
-    const newQueryParams: Record<string, string | number> = {
-      page: "1", // При изменении фильтров всегда сбрасываем на первую страницу
-    };
-
-    // Добавляем только те параметры, которые отличаются от значений по умолчанию
-    if (newFilters.startDate !== "2024-01-01") {
-      newQueryParams.startDate = newFilters.startDate;
-    }
-    if (newFilters.endDate !== "2025-01-01") {
-      newQueryParams.endDate = newFilters.endDate;
-    }
-    if (newFilters.limit !== props.limit) {
-      newQueryParams.limit = newFilters.limit;
-    }
-
-    // Обновляем URL
-    router.push({
-      query: newQueryParams,
-    });
-    emit("refetch");
-    // refetch();
-  },
-
-  { deep: true }
-);
 </script>
 
 <template>
@@ -60,17 +21,9 @@ watch(
       v-model="filters.endDate"
       type="date"
       placeholder="Дата до"
-      :disabled-date="
-                (time: { getTime: number; }) => {
-                  if (filters.startDate) {
-                    return time.getTime < new Date(filters.startDate).getTime();
-                  }
-                  return false;
-                }
-              "
     />
     <el-select v-model="filters.limit" placeholder="Лимит" clearable>
-      <el-option :label="limit" :value="limit" />
+      <el-option :label="15" :value="15" />
       <el-option label="35" :value="35" />
       <el-option label="50" :value="50" />
     </el-select>

@@ -23,17 +23,23 @@ function handlePageChange(newPage: number) {
   refetch();
 }
 
+const { filters } = useFilters();
+const queryKey = computed(() => [
+  "sales",
+  filters.limit,
+  filters.startDate,
+  filters.endDate,
+  page.value,
+]);
 const { isPending, isFetching, data, error, refetch } = useQuery<PaginatedResponse<Sale[]>>({
-  queryKey: ["sales"],
-  queryFn: () => getSales(filters.limit, 1, filters.startDate, filters.endDate),
+  queryKey: queryKey,
+  queryFn: () => getSales(filters.limit, page.value, filters.startDate, filters.endDate),
   refetchOnWindowFocus: false,
 });
-
-const { filters } = useFilters(refetch, LIMIT);
 </script>
 
 <template class="flex flex-col items-center w-full gap-5">
-  <Filters :limit="LIMIT" @refetch="refetch" />
+  <Filters :filters="filters" :limit="LIMIT" @refetch="refetch" />
 
   <div class="text-red-500" v-if="error">
     {{ error?.message || JSON.stringify(error) }}
