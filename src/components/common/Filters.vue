@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 import { reactive, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+const props = defineProps<{
+  limit: number;
+}>();
 const emit = defineEmits(["refetch"]);
-const LIMIT = 15;
 const router = useRouter();
 const route = useRoute();
 // const page = computed(() => Number(route.query.page) || 1);
 const filters = reactive({
   startDate: (route.query.startDate as string) || "2024-01-01",
   endDate: (route.query.endDate as string) || "2025-01-01",
-  limit: Number(route.query.limit) || LIMIT,
+  limit: Number(route.query.limit) || props.limit,
 });
 
 watch(
@@ -27,7 +29,7 @@ watch(
     if (newFilters.endDate !== "2025-01-01") {
       newQueryParams.endDate = newFilters.endDate;
     }
-    if (newFilters.limit !== LIMIT) {
+    if (newFilters.limit !== props.limit) {
       newQueryParams.limit = newFilters.limit;
     }
 
@@ -67,5 +69,10 @@ watch(
                 }
               "
     />
+    <el-select v-model="filters.limit" placeholder="Лимит" clearable>
+      <el-option :label="limit" :value="limit" />
+      <el-option label="35" :value="35" />
+      <el-option label="50" :value="50" />
+    </el-select>
   </div>
 </template>

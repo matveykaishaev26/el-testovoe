@@ -16,6 +16,6 @@ const emit = defineEmits<{ (e: "change", page: number): void }>();
     :current-page="page"
     :page-size="limit"
     :total="total"
-      @current-change="(p: number) => emit('change', p)"
+    @current-change="(p: number) => emit('change', p)"
   />
 </template>
