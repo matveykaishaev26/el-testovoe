@@ -10,7 +10,6 @@ const emit = defineEmits<{ (e: "change", page: number): void }>();
 
 <template>
   <el-pagination
-    v-if="total > limit"
     background
     layout="prev, pager, next, jumper"
     :current-page="page"
