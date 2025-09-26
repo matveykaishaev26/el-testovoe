@@ -1,3 +1,16 @@
+export interface PaginatedResponse<T> {
+  data: T;
+  meta: {
+    current_page: number;
+    from: number;
+    last_page: number;
+    total: number;
+    to: 10;
+    per_page: string;
+    path: string;
+  };
+}
+
 export interface Sale {
   g_number: string;
   date: string; // Можно заменить на Date, если будет парситься в дату
@@ -26,6 +39,12 @@ export interface Sale {
   category: string;
   brand: string;
   is_storno: boolean | null;
+}
+
+export interface Filters {
+  startDate?: string;
+  endDate?: string;
+  limit?: number;
 }
 
 export interface Order {}
