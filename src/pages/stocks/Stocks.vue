@@ -15,7 +15,7 @@ import { getFormattedDate } from "../../utils/date";
 
 const LIMIT = 15;
 const start = new Date();
-start.setDate(start.getDate() - 1);
+start.setDate(start.getDate());
 const DEFAULT_START_DATE = getFormattedDate(start);
 
 const end = new Date(); // сегодня
