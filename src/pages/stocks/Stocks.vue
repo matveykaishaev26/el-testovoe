@@ -16,12 +16,9 @@ import { getFormattedDate } from "../../utils/date";
 const LIMIT = 15;
 const start = new Date();
 start.setDate(start.getDate() - 1);
-
 const DEFAULT_START_DATE = getFormattedDate(start);
 
-const end = new Date();
-end.setMonth(end.getMonth() + 1);
-
+const end = new Date(); // сегодня
 const DEFAULT_END_DATE = getFormattedDate(end);
 
 const { page, handlePageChange } = usePage();
